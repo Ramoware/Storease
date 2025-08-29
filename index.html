@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Your Store — Simple Static Shop</title>
+  <meta name="description" content="A lightweight static e‑commerce starter you can host on GitHub Pages. No backend required—uses payment links.">
+  <meta name="keywords" content="ecommerce, static site, github pages, storefront">
+  <meta name="author" content="You">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🛍️</text></svg>">
+
+  <!-- Tailwind (CDN for quick start). For production, consider prebuilding. -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#eef8ff', 100: '#d9efff', 200: '#b6e0ff', 300: '#82c9ff', 400: '#4ab1ff',
+              500: '#1f90ff', 600: '#0f6fe6', 700: '#0b57b4', 800: '#0a4a94', 900: '#0a3f7b'
+            }
+          },
+          boxShadow: { soft: '0 10px 30px rgba(2,12,27,0.06)'}
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Smooth scroll */
+    html { scroll-behavior:smooth }
+    /* Hide number input spinners */
+    input[type=number]::-webkit-inner-spin-button, input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
+  </style>
+</head>
+<body class="bg-gray-50 text-gray-900">
+  <!-- Top bar -->
+  <header class="sticky top-0 z-40 bg-white/80 backdrop-blur border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-2 font-bold text-lg">
+        <img id="brandLogo" alt="Logo" class="h-8 w-8 rounded" src="https://dummyimage.com/64x64/1f90ff/ffffff.png&text=Y"/>
+        <span id="brandName">Your Store</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#products" class="hover:text-brand-600">Products</a>
+        <a href="#about" class="hover:text-brand-600">About</a>
+        <a href="#faq" class="hover:text-brand-600">FAQ</a>
+        <a href="#contact" class="hover:text-brand-600">Contact</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button id="searchBtn" class="p-2 rounded-lg hover:bg-gray-100" aria-label="Search">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.06 12.18l3.755 3.755a.75.75 0 1 0 1.06-1.06l-3.755-3.755A6.75 6.75 0 0 0 10.5 3.75Zm-5.25 6.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd"/></svg>
+        </button>
+        <button id="cartBtn" class="relative p-2 rounded-lg hover:bg-gray-100" aria-label="Open cart">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6"><path d="M2.25 3a.75.75 0 0 0 0 1.5h1.386c.161 0 .303.108.342.264l.401 1.606L6.75 14.25A2.25 2.25 0 0 0 8.93 16.5h8.32a2.25 2.25 0 0 0 2.195-1.74l1.5-6.75A.75.75 0 0 0 20.25 7.5H6.423l-.573-2.292A1.875 1.875 0 0 0 3.636 3H2.25Z"/><path d="M16.5 20.25a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3Zm-9-1.5a1.5 1.5 0 1 0 3 0 1.5 1.5 0 0 0-3 0Z"/></svg>
+          <span id="cartCount" class="absolute -top-1 -right-1 text-xs bg-brand-600 text-white rounded-full px-1.5 py-0.5">0</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-50 via-white to-brand-100"></div>
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 grid md:grid-cols-2 gap-12 items-center">
+      <div>
+        <h1 class="text-4xl sm:text-5xl font-extrabold tracking-tight">Design‑led products, shipped fast.</h1>
+        <p class="mt-4 text-lg text-gray-600">This starter is perfect for a quick launch on GitHub Pages. Swap in your Canva banners and product images, add payment links, and you’re live.</p>
+        <div class="mt-6 flex gap-3">
+          <a href="#products" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 text-white shadow-soft hover:bg-brand-700">Shop now</a>
+          <a href="#about" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl border border-gray-300 bg-white hover:bg-gray-50">Learn more</a>
+        </div>
+      </div>
+      <div class="relative">
+        <img id="heroImage" alt="Hero" class="rounded-2xl shadow-soft w-full object-cover" src="https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop"/>
+        <p class="sr-only">Replace the hero image with a Canva export (JPG/PNG).</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Search bar -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-6">
+    <label class="relative block">
+      <span class="sr-only">Search</span>
+      <input id="searchInput" type="text" placeholder="Search products…" class="w-full rounded-xl border border-gray-300 bg-white py-3 pl-11 pr-4 shadow-soft placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-brand-500" />
+      <span class="absolute inset-y-0 left-0 flex items-center pl-3">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-gray-400"><path fill-rule="evenodd" d="M10.5 3.75a6.75 6.75 0 1 0 4.06 12.18l3.755 3.755a.75.75 0 1 0 1.06-1.06l-3.755-3.755A6.75 6.75 0 0 0 10.5 3.75Zm-5.25 6.75a5.25 5.25 0 1 1 10.5 0 5.25 5.25 0 0 1-10.5 0Z" clip-rule="evenodd"/></svg>
+      </span>
+    </label>
+  </div>
+
+  <!-- Products -->
+  <section id="products" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div class="flex items-end justify-between mb-6">
+      <h2 class="text-2xl font-bold">Featured Products</h2>
+      <div>
+        <select id="sortSelect" class="rounded-lg border-gray-300 text-sm">
+          <option value="featured">Sort: Featured</option>
+          <option value="price-asc">Price: Low to High</option>
+          <option value="price-desc">Price: High to Low</option>
+          <option value="name">Name A→Z</option>
+        </select>
+      </div>
+    </div>
+    <div id="productGrid" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"></div>
+  </section>
+
+  <!-- About -->
+  <section id="about" class="bg-white border-y">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 grid md:grid-cols-2 gap-8 items-center">
+      <img class="rounded-2xl shadow-soft object-cover w-full" src="https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?q=80&w=1200&auto=format&fit=crop" alt="About visual"/>
+      <div>
+        <h3 class="text-xl font-semibold mb-2">About our brand</h3>
+        <p class="text-gray-600">Write your brand story here. Use ChatGPT to draft a friendly, on-brand paragraph and Canva to create visuals. Keep it short and crisp for a landing page.</p>
+        <ul class="mt-4 list-disc pl-5 text-gray-600">
+          <li>Free shipping over ₹999</li>
+          <li>7‑day returns</li>
+          <li>Secure checkout</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <h3 class="text-xl font-semibold mb-6">FAQ</h3>
+    <details class="mb-3 bg-white border rounded-xl p-4">
+      <summary class="cursor-pointer font-medium">How do I pay?</summary>
+      <p class="mt-2 text-gray-600">Click “Buy now” on any product. You’ll be redirected to a secure payment link (Stripe/Razorpay/Paytm). For GitHub Pages, we use third‑party payment links—no backend required.</p>
+    </details>
+    <details class="mb-3 bg-white border rounded-xl p-4">
+      <summary class="cursor-pointer font-medium">Where do you ship?</summary>
+      <p class="mt-2 text-gray-600">Update this per your policy. For a quick start, ship domestically and expand later.</p>
+    </details>
+    <details class="mb-3 bg-white border rounded-xl p-4">
+      <summary class="cursor-pointer font-medium">Can I return items?</summary>
+      <p class="mt-2 text-gray-600">Describe your returns policy here (e.g., 7‑day returns, unused and in original packaging).</p>
+    </details>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="bg-white border-t">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <h3 class="text-xl font-semibold mb-4">Contact us</h3>
+      <p class="text-gray-600">Use a form tool (e.g., formspark, basin, netlify forms) or link your WhatsApp. For now this button opens an email draft.</p>
+      <a href="mailto:sales@example.com?subject=Product%20query" class="inline-flex items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 text-white shadow-soft hover:bg-brand-700">Email us</a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-sm text-gray-600 flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-between">
+      <p>© <span id="year"></span> <span id="brandNameFoot">Your Store</span>. All rights reserved.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-gray-900">Privacy</a>
+        <a href="#" class="hover:text-gray-900">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cart Drawer -->
+  <div id="cartDrawer" class="fixed inset-0 z-50 hidden" aria-hidden="true">
+    <div class="absolute inset-0 bg-black/40" id="cartBackdrop"></div>
+    <aside class="absolute right-0 top-0 h-full w-full sm:w-[420px] bg-white shadow-xl p-6 flex flex-col">
+      <div class="flex items-center justify-between mb-4">
+        <h4 class="text-lg font-semibold">Your Cart</h4>
+        <button id="cartClose" class="p-2 rounded-lg hover:bg-gray-100" aria-label="Close cart">✕</button>
+      </div>
+      <div id="cartItems" class="flex-1 overflow-auto divide-y"></div>
+      <div class="pt-4 space-y-3">
+        <div class="flex items-center justify-between text-sm">
+          <span>Subtotal</span>
+          <span id="cartSubtotal" class="font-medium">₹0</span>
+        </div>
+        <button id="checkoutBtn" class="w-full inline-flex justify-center items-center gap-2 px-5 py-3 rounded-xl bg-brand-600 text-white shadow-soft hover:bg-brand-700">Checkout</button>
+      </div>
+    </aside>
+  </div>
+
+  <script>
+    // =========================
+    // 1) CONFIG — Edit this part
+    // =========================
+    const STORE = {
+      name: 'Your Store',
+      logo: 'https://dummyimage.com/64x64/1f90ff/ffffff.png&text=Y',
+      hero: 'https://images.unsplash.com/photo-1512436991641-6745cdb1723f?q=80&w=1600&auto=format&fit=crop',
+      currency: 'INR',
+      // Optional: a general checkout link if you prefer a single payment page.
+      // e.g., Stripe Payment Link, Razorpay Payment Button URL, etc.
+      globalCheckoutLink: '',
+    }
+
+    // Example products. Replace with your real items. Each item can have its own paymentLink.
+    const PRODUCTS = [
+      {
+        id: 'sku-tee-001',
+        name: 'Minimalist Tee',
+        price: 799,
+        image: 'https://images.unsplash.com/photo-1520975682031-a24e37f1b4f4?q=80&w=1200&auto=format&fit=crop',
+        badges: ['Bestseller'],
+        paymentLink: 'https://example.com/pay/tee', // Replace with Stripe/Razorpay/etc.
+        description: '100% cotton, relaxed fit, everyday essential.'
+      },
+      {
+        id: 'sku-mug-002',
+        name: 'Ceramic Mug',
+        price: 499,
+        image: 'https://images.unsplash.com/photo-1524592094714-0f0654e20314?q=80&w=1200&auto=format&fit=crop',
+        badges: ['New'],
+        paymentLink: 'https://example.com/pay/mug',
+        description: '350ml, matte glaze, dishwasher‑safe.'
+      },
+      {
+        id: 'sku-bag-003',
+        name: 'Tote Bag',
+        price: 699,
+        image: 'https://images.unsplash.com/photo-1520975940796-5b2a5b5c5607?q=80&w=1200&auto=format&fit=crop',
+        badges: ['Eco'],
+        paymentLink: 'https://example.com/pay/tote',
+        description: 'Sturdy canvas tote for daily carry.'
+      },
+      {
+        id: 'sku-cap-004',
+        name: 'Dad Cap',
+        price: 599,
+        image: 'https://images.unsplash.com/photo-1475180098004-ca77a66827be?q=80&w=1200&auto=format&fit=crop',
+        badges: [],
+        paymentLink: 'https://example.com/pay/cap',
+        description: 'Adjustable strap, low‑profile silhouette.'
+      }
+    ]
+
+    // =========================
+    // 2) Helper functions
+    // =========================
+    const fmt = (n) => new Intl.NumberFormat('en-IN', { style: 'currency', currency: STORE.currency }).format(n)
+
+    function setBranding() {
+      document.getElementById('brandName').textContent = STORE.name
+      document.getElementById('brandNameFoot').textContent = STORE.name
+      document.getElementById('brandLogo').src = STORE.logo
+      document.getElementById('heroImage').src = STORE.hero
+      document.getElementById('year').textContent = new Date().getFullYear()
+    }
+
+    function renderProducts(list) {
+      const grid = document.getElementById('productGrid')
+      grid.innerHTML = ''
+      list.forEach(p => {
+        const card = document.createElement('div')
+        card.className = 'bg-white border rounded-2xl overflow-hidden flex flex-col shadow-soft'
+        card.innerHTML = `
+          <div class="relative">
+            <img alt="${p.name}" src="${p.image}" class="h-56 w-full object-cover"/>
+            ${p.badges?.[0] ? `<span class='absolute top-3 left-3 text-xs bg-white/90 border rounded-full px-2 py-1'>${p.badges[0]}</span>` : ''}
+          </div>
+          <div class="p-4 flex-1 flex flex-col">
+            <h3 class="font-semibold">${p.name}</h3>
+            <p class="text-sm text-gray-600 line-clamp-2">${p.description || ''}</p>
+            <div class="mt-auto flex items-center justify-between pt-3">
+              <span class="font-bold">${fmt(p.price)}</span>
+              <div class="flex gap-2">
+                <button data-id="${p.id}" class="addToCart px-3 py-2 rounded-lg border hover:bg-gray-50">Add</button>
+                <a href="${p.paymentLink || '#'}" target="_blank" rel="noopener" class="buyNow px-3 py-2 rounded-lg bg-brand-600 text-white hover:bg-brand-700">Buy now</a>
+              </div>
+            </div>
+          </div>
+        `
+        grid.appendChild(card)
+      })
+      document.querySelectorAll('.addToCart').forEach(btn => btn.addEventListener('click', () => addToCart(btn.dataset.id)))
+    }
+
+    // =========================
+    // 3) Cart state w/ localStorage
+    // =========================
+    const CART_KEY = 'simpleCart.v1'
+    function getCart() { return JSON.parse(localStorage.getItem(CART_KEY) || '[]') }
+    function saveCart(items) { localStorage.setItem(CART_KEY, JSON.stringify(items)); updateCartBadge(items) }
+
+    function addToCart(id) {
+      const cart = getCart()
+      const item = cart.find(i => i.id === id)
+      if (item) item.qty += 1; else cart.push({ id, qty: 1 })
+      saveCart(cart); openCart()
+    }
+    function removeFromCart(id) {
+      let cart = getCart().filter(i => i.id !== id)
+      saveCart(cart); renderCart()
+    }
+    function changeQty(id, qty) {
+      let cart = getCart()
+      const item = cart.find(i => i.id === id)
+      if (!item) return
+      item.qty = Math.max(1, qty)
+      saveCart(cart); renderCart()
+    }
+    function updateCartBadge(items = getCart()) {
+      const count = items.reduce((n, i) => n + i.qty, 0)
+      document.getElementById('cartCount').textContent = count
+    }
+
+    function renderCart() {
+      const wrap = document.getElementById('cartItems')
+      wrap.innerHTML = ''
+      const cart = getCart()
+      let subtotal = 0
+      cart.forEach(({ id, qty }) => {
+        const p = PRODUCTS.find(x => x.id === id)
+        if (!p) return
+        const line = p.price * qty
+        subtotal += line
+        const row = document.createElement('div')
+        row.className = 'py-3 flex gap-3 items-center'
+        row.innerHTML = `
+          <img alt="${p.name}" src="${p.image}" class="w-16 h-16 object-cover rounded-lg border"/>
+          <div class="flex-1">
+            <div class="font-medium">${p.name}</div>
+            <div class="text-sm text-gray-600">${fmt(p.price)} × </div>
+          </div>
+          <input type="number" min="1" value="${qty}" class="w-16 border rounded-lg text-center" aria-label="Quantity" />
+          <div class="w-20 text-right font-medium">${fmt(line)}</div>
+          <button class="p-2 rounded-lg hover:bg-gray-100" aria-label="Remove">🗑️</button>
+        `
+        const [qtyInput, removeBtn] = [row.querySelector('input'), row.querySelector('button')]
+        qtyInput.addEventListener('change', () => changeQty(id, parseInt(qtyInput.value || '1')))
+        removeBtn.addEventListener('click', () => removeFromCart(id))
+        wrap.appendChild(row)
+      })
+      document.getElementById('cartSubtotal').textContent = fmt(subtotal)
+    }
+
+    // =========================
+    // 4) Drawer & interactions
+    // =========================
+    const drawer = document.getElementById('cartDrawer')
+    function openCart() { drawer.classList.remove('hidden'); renderCart() }
+    function closeCart() { drawer.classList.add('hidden') }
+
+    document.getElementById('cartBtn').addEventListener('click', openCart)
+    document.getElementById('cartClose').addEventListener('click', closeCart)
+    document.getElementById('cartBackdrop').addEventListener('click', closeCart)
+
+    // Checkout: if product-specific links exist, you can either
+    // (a) redirect to a global checkout link, or
+    // (b) open a prefilled email/WhatsApp with the cart contents.
+    document.getElementById('checkoutBtn').addEventListener('click', () => {
+      if (STORE.globalCheckoutLink) {
+        window.open(STORE.globalCheckoutLink, '_blank')
+        return
+      }
+      const cart = getCart()
+      if (!cart.length) { alert('Your cart is empty.'); return }
+      const lines = cart.map(({id, qty}) => { const p = PRODUCTS.find(x=>x.id===id); return `${p.name} × ${qty} = ${fmt(p.price*qty)}` })
+      const total = lines.join('%0A') + `%0A%0ATotal: ${document.getElementById('cartSubtotal').textContent}`
+      const mailto = `mailto:sales@example.com?subject=Order%20Request&body=${total}`
+      window.location.href = mailto
+    })
+
+    // =========================
+    // 5) Search & sort
+    // =========================
+    function applyFilters() {
+      const q = document.getElementById('searchInput').value.toLowerCase().trim()
+      const sort = document.getElementById('sortSelect').value
+      let list = PRODUCTS.filter(p => p.name.toLowerCase().includes(q) || (p.description||'').toLowerCase().includes(q))
+      if (sort === 'price-asc') list.sort((a,b) => a.price - b.price)
+      if (sort === 'price-desc') list.sort((a,b) => b.price - a.price)
+      if (sort === 'name') list.sort((a,b) => a.name.localeCompare(b.name))
+      renderProducts(list)
+    }
+    document.getElementById('searchInput').addEventListener('input', applyFilters)
+    document.getElementById('sortSelect').addEventListener('change', applyFilters)
+    document.getElementById('searchBtn').addEventListener('click', () => document.getElementById('searchInput').focus())
+
+    // =========================
+    // 6) Init
+    // =========================
+    setBranding()
+    renderProducts(PRODUCTS)
+    updateCartBadge()
+  </script>
+
+  <!--
+  DEPLOYMENT (GitHub Pages):
+  1) Create a new public repo named username.github.io OR any repo and enable Pages from Settings → Pages → Source: main branch.
+  2) Add this file as index.html at the repo root. Commit & push.
+  3) Replace images and links above. Canva Pro → export PNG/JPG → update STORE.logo, STORE.hero, and product images.
+  4) Add real payment links (Stripe Payment Link, Razorpay Payment Page/Button, Paytm, etc.) to each product or use STORE.globalCheckoutLink.
+  5) For a custom domain, configure Pages → Custom domain and set DNS CNAME.
+
+  NOTES:
+  • This is a simple static cart for temporary launches. For inventory, orders, and tax automation, move later to a headless or hosted platform (e.g., Shopify, Medusa, Commerce.js) or deploy to Netlify/Vercel with serverless functions.
+  • Accessibility: buttons have labels; images have alt; colors have contrast. Validate with Lighthouse.
+  • SEO: update <title>, meta description/keywords; add Open Graph/Twitter tags if needed.
+  -->
+</body>
+</html>
